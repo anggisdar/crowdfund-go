@@ -2,8 +2,10 @@ package main
 
 import (
 	"log"
+	"webfunding/handler"
 	"webfunding/user"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -19,13 +21,14 @@ func main() {
 	userRepository := user.NewRepository(dbgo)
 	userService := user.NewService(userRepository)
 
-	userInput := user.RegisterUserInput{}
-	userInput.Name = "Tes simpan dari service"
-	userInput.Email = "anggsidar@gmail.com"
-	userInput.Ocuppation = "anak band"
-	userInput.Password = "password"
+	userHandler := handler.NewUserHandler(userService)
 
-	userService.RegisterUser(userInput)
+	router := gin.Default()
+	api := router.Group("/api/v1")
+
+	api.POST("/users", userHandler.RegisterUser)
+
+	router.Run()
 }
 
 //inputnya dari user
