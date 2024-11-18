@@ -1,27 +1,27 @@
 package helper
 
-type response struct {
-	Meta meta
-	Data interface{}
+type Response struct {
+	Meta Meta        `json:"meta"`
+	Data interface{} `json:"data"`
 }
 
-type meta struct {
-	Message string
-	Code    int
-	Status  string
+type Meta struct {
+	Message string `json:"message"`
+	Code    int    `json:"code"`
+	Status  string `json:"status"`
 }
 
-func APIResponse(message string, code int, status string, data interface{}) response {
-	meta := meta{
+func APIResponse(message string, code int, status string, data interface{}) Response {
+	meta := Meta{
 		Message: message,
 		Code:    code,
 		Status:  status,
 	}
 
-	JSONresponse := response{
+	jsonResponse := Response{
 		Meta: meta,
 		Data: data,
 	}
 
-	return JSONresponse
+	return jsonResponse
 }
