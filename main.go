@@ -17,9 +17,19 @@ func main() {
 	}
 
 	userRepository := user.NewRepository(dbgo)
-	user := user.User{
-		Name: "Test simpan",
-	}
+	userService := user.NewService(userRepository)
 
-	userRepository.Save(user)
+	userInput := user.RegisterUserInput{}
+	userInput.Name = "Tes simpan dari service"
+	userInput.Email = "anggsidar@gmail.com"
+	userInput.Ocuppation = "anak band"
+	userInput.Password = "password"
+
+	userService.RegisterUser(userInput)
 }
+
+//inputnya dari user
+//handler : mapping input dari user > struct input
+//service : melakukan mapping dari struct entity.go ke struct user
+//repository
+//db
