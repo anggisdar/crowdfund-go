@@ -9,3 +9,9 @@ type RegisterUserInput struct {
 
 //ini struct user input untuk mapping
 //harus diawali huruf besar agar bisa diakses publik
+
+// bagian login
+type LoginInput struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `~json:"password" binding:"required"`
+}
