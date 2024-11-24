@@ -8,7 +8,7 @@ import (
 
 type Service interface {
 	RegisterUser(input RegisterUserInput) (User, error)
-	Login(input LoginInput) (User error)
+	Login(input LoginInput) (User, error)
 }
 
 type service struct {
