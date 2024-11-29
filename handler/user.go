@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"webfunding/helper"
 	"webfunding/user"
@@ -142,7 +143,10 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		return
 	}
 
-	path := "images/" + file.Filename
+	userID := 1
+
+	//path := "images/" + file.Filename
+	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
 	err = c.SaveUploadedFile(file, path)
 	if err != nil {
@@ -152,9 +156,6 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-
-	userID := 1
-
 	_, err = h.userService.SaveAvatar(userID, path)
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
