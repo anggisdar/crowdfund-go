@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"webfunding/auth"
 	"webfunding/handler"
@@ -20,7 +21,7 @@ func main() {
 	}
 
 	var existingUser user.User
-	err = dbgo.Where("email = ?", "anggisdar@gmail.com").First(&existingUser).Error
+	err = dbgo.Where("email = ?", "dummy@gmail.com").First(&existingUser).Error
 	if err != nil {
 		// Password yang di-hash hanya dilakukan saat membuat user baru
 		password := "password" // password yang belum di-hash
@@ -31,9 +32,9 @@ func main() {
 
 		// User baru dengan password yang sudah di-hash
 		newUser := user.User{
-			Name:         "Anggis",
+			Name:         "jon doe",
 			Occupation:   "Developer Enthusiast",
-			Email:        "anggisdar@gmail.com",
+			Email:        "dummy@gmail.com",
 			PasswordHash: string(passwordHash),
 			Role:         "user",
 		}
@@ -43,12 +44,29 @@ func main() {
 		if err != nil {
 			log.Fatal("Error inserting user: ", err)
 		}
-		log.Println("User 'anggis' created successfully with hashed password.")
+		log.Println("User 'jon doe' created successfully with hashed password.")
 	}
 
 	userRepository := user.NewRepository(dbgo)
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
+
+	token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyfQ.91zoYKli7xu9MhzTp-6VQnkkJ6Hh_KRYWPOo1hZnCu8")
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println("ERROR")
+		fmt.Println("ERROR")
+	}
+
+	if token.Valid {
+		fmt.Println("VALID")
+		fmt.Println("VALID")
+		fmt.Println("VALID")
+	} else {
+		fmt.Println("INVALID")
+		fmt.Println("INVALID")
+		fmt.Println("INVALID")
+	}
 
 	{
 		authService.GenerateToken(1001)
